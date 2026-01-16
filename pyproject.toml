@@ -1,0 +1,24 @@
+[project]
+name = "taxipred"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Omer Aytug", email = "aytugomer00@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.128.0",
+    "httpx>=0.28.1",
+    "pandas>=2.3.3",
+    "scikit-learn>=1.8.0",
+    "streamlit>=1.53.0",
+    "uvicorn>=0.40.0",
+]
+
+[project.scripts]
+taxipred = "taxipred:main"
+
+[build-system]
+requires = ["uv_build>=0.9.13,<0.10.0"]
+build-backend = "uv_build"
