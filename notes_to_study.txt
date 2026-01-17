@@ -9,3 +9,5 @@ winsorization
 kernel density estimation 
 
 two features should not correlate to each other - multicollinearity problem - leads to overfitting
+
+xgboost
