@@ -1,3 +1,8 @@
 https://medium.com/data-science-collective/mice-the-smart-way-to-handle-missing-data-in-machine-learning-0052d072267a
 
 https://medium.com/@adnan.mazraeh1993/advanced-missing-data-imputation-from-hero-to-zero-5-4978286448de
+
+https://en.wikipedia.org/wiki/Winsorizing
+
+
+https://stats.stackexchange.com/questions/505149/dealing-with-outliers-interquartile-range-normalization-vs-winsorization
