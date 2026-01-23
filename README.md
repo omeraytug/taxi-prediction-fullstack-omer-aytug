@@ -64,3 +64,12 @@ The model development process is documented in a series of Jupyter notebooks:
 - **No Monitoring**: The application lacks production monitoring, logging, or performance tracking
 - **No CI/CD**: No continuous integration/deployment pipeline is set up
 - **No Error Tracking**: Limited error handling and no centralized error tracking system
+
+## Acknowledgments
+
+During the development of this project, assistance was received from Large Language Models (LLMs), particularly for:
+- **Google Maps API SDK integration** and route visualization
+- **Frontend construction** and UI components
+- **README documentation**
+
+Additionally, significant help was received during the machine learning and data engineering workflow from **Harry H. Aytug, AI and ML Engineer @AWS**, particularly in understanding different concepts and how to apply these methods.
