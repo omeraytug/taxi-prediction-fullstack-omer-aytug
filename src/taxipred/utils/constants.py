@@ -6,3 +6,4 @@ NEW_CSV_PATH = DATA_PATH / "taxi_trip_pricing_cleaned.csv"
 
 MODEL_PATH = Path(__file__).parents[1] / "models"
 MODEL = MODEL_PATH / "model.joblib"
+SCALER = MODEL_PATH / "scaler.joblib"
