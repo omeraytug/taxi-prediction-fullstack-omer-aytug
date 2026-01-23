@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from taxipred.backend.data_models import TaxiData, TaxiInput, PredictionResponse
-from taxipred.utils.constants import MODEL
+from taxipred.utils.constants import MODEL, SCALER
 import joblib
 import pandas as pd
 
@@ -10,8 +10,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Load the trained model
+# Load the trained model and scaler
 model = joblib.load(MODEL)
+scaler = joblib.load(SCALER)
 
 taxi_data = TaxiData()
 
@@ -115,8 +116,11 @@ async def predict_price(input_data: TaxiInput):
     # Preprocess input to match model format
     X_processed = preprocess_input(input_data)
     
+    # Scale features for Linear Regression
+    X_scaled = scaler.transform(X_processed)
+    
     # Make prediction
-    prediction = model.predict(X_processed)[0]
+    prediction = model.predict(X_scaled)[0]
     
     # Prepare response
     return PredictionResponse(
