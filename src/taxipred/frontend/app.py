@@ -73,6 +73,10 @@ def get_route_info(origin: str, destination: str, api_key: str) -> Optional[Tupl
         Tuple of (distance_km, duration_minutes, route_data) or None if error
         route_data contains: origin_coords, destination_coords, overview_polyline
     """
+    if not api_key:
+        st.error("Google Maps API key is required for this feature.")
+        return None
+    
     try:
         params = {
             "origin": origin,
@@ -86,7 +90,10 @@ def get_route_info(origin: str, destination: str, api_key: str) -> Optional[Tupl
         data = response.json()
         
         if data["status"] != "OK":
-            st.error(f"Google Maps API error: {data.get('error_message', data['status'])}")
+            error_msg = data.get('error_message', data['status'])
+            st.error(f"Google Maps API error: {error_msg}")
+            if data["status"] == "REQUEST_DENIED":
+                st.info("💡 Check if your API key is valid and the Directions API is enabled.")
             return None
         
         if not data.get("routes"):
@@ -203,10 +210,15 @@ def main():
         
         if google_api_key:
             st.success("✓ Google Maps API key loaded from `.env` file")
+            st.info("📍 Location-based input is **enabled**")
         else:
             st.warning("⚠ Google Maps API key not found in `.env` file")
-            with st.expander("ℹ️ How to configure Google Maps API Key"):
+            st.info("💡 **Manual Input** mode is always available - you can enter distance and duration directly.")
+            with st.expander("ℹ️ How to configure Google Maps API Key (Optional)"):
                 st.markdown("""
+                **This is optional!** The app works perfectly fine without it using Manual Input mode.
+                
+                To enable location-based input:
                 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
                 2. Create a new project or select an existing one
                 3. Enable the **Directions API**
@@ -225,9 +237,14 @@ def main():
         st.markdown("Enter the trip details below to get a price prediction.")
         
         # Input method selection
+        # Only show Google Maps option if API key is available
+        input_options = ["✏️ Manual Input"]
+        if google_api_key:
+            input_options.insert(0, "📍 Use Locations (Google Maps)")
+        
         input_method = st.radio(
             "Choose input method:",
-            ["📍 Use Locations (Google Maps)", "✏️ Manual Input"],
+            input_options,
             horizontal=True,
             help="Select whether to use location names or enter distance/duration manually"
         )
@@ -262,7 +279,8 @@ def main():
             route_fetched = False
             if st.button("🗺️ Get Route Info from Google Maps", type="primary", use_container_width=True):
                 if not google_api_key:
-                    st.error("Please enter your Google Maps API key in the sidebar.")
+                    st.error("❌ Google Maps API key is not configured. Please add `GOOGLE_MAPS_API_KEY` to your `.env` file to use this feature.")
+                    st.info("💡 You can still use **Manual Input** mode to enter distance and duration directly.")
                 elif not origin or not destination:
                     st.error("Please enter both origin and destination.")
                 else:
